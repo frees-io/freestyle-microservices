@@ -20,3 +20,13 @@ lazy val `freestyle-microservices` = crossProject
 
 lazy val `freestyle-microservicesJVM` = `freestyle-microservices`.jvm
 lazy val `freestyle-microservicesJS` = `freestyle-microservices`.js
+
+lazy val `freestyle-opscenter` = crossProject
+  .in(file("freestyle-opscenter"))
+  .settings(moduleName := "freestyle-opscenter")
+  .settings(scalaMetaSettings: _*)
+  .crossDepSettings(commonDeps ++ freestyleCoreDeps(): _*)
+  .jsSettings(sharedJsSettings: _*)
+
+lazy val `freestyle-opscenterJVM` = `freestyle-opscenter`.jvm
+lazy val `freestyle-opscenterJS` = `freestyle-opscenter`.js
