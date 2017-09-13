@@ -25,8 +25,11 @@ lazy val `freestyle-opscenter` = crossProject
   .in(file("freestyle-opscenter"))
   .settings(moduleName := "freestyle-opscenter")
   .settings(scalaMetaSettings: _*)
-  .crossDepSettings(commonDeps ++ freestyleCoreDeps(): _*)
+  .crossDepSettings(commonDeps ++ freestyleCoreDeps() ++
+    Seq(
+      "com.typesafe.akka" %% "akka-stream" % "2.5.4",
+      "com.typesafe.akka" %% "akka-http" % "10.0.10"
+    ): _*)
   .jsSettings(sharedJsSettings: _*)
 
 lazy val `freestyle-opscenterJVM` = `freestyle-opscenter`.jvm
-lazy val `freestyle-opscenterJS` = `freestyle-opscenter`.js
