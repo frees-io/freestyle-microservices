@@ -1,0 +1,28 @@
+<section class="app mat-typography">
+
+  <md-toolbar color="primary" class="mat-elevation-z10">
+    <button md-button class="toolbar-button" (click)="sidenav.toggle()">
+      <md-icon>menu</md-icon>
+    </button>
+    <span>Freestyle Opscenter</span>
+  </md-toolbar>
+
+  <md-sidenav-container>
+
+      <md-sidenav #sidenav class="sidenav" mode="side" opened="true">
+        <md-nav-list>
+          <md-list-item *ngFor="let link of links">
+            <a routerLink="/ws-viewer" routerLinkActive="active" mdLine>Item {{ link }}</a>
+            <button md-icon-button>
+              <md-icon>info</md-icon>
+            </button>
+          </md-list-item>
+        </md-nav-list>
+      </md-sidenav>
+     
+      <section class="sidenav-content">
+        <router-outlet></router-outlet>
+      </section>
+
+  </md-sidenav-container>
+</section>
