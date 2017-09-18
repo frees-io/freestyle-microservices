@@ -29,7 +29,7 @@ object Routes {
     case req @ HttpRequest(GET, Uri.Path("/metrics"), _, _, _) =>
       req.header[UpgradeToWebSocket] match {
         case Some(upgrade) => upgrade.handleMessages(greeterWebSocketService)
-        case None          => HttpResponse(400, entity = "Not a valid websocket request!")
+        case None          => HttpResponse(400, entity = "Unknown resource: Not a valid websocket request!")
       }
     case r: HttpRequest =>
       r.discardEntityBytes()

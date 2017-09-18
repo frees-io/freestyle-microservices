@@ -30,6 +30,5 @@ lazy val `freestyle-opscenter` = crossProject
       "com.typesafe.akka" %% "akka-stream" % "2.5.4",
       "com.typesafe.akka" %% "akka-http" % "10.0.10"
     ): _*)
-  .jsSettings(sharedJsSettings: _*)
 
 lazy val `freestyle-opscenterJVM` = `freestyle-opscenter`.jvm

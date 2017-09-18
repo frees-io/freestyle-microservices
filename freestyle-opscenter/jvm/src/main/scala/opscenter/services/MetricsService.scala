@@ -18,16 +18,18 @@ package freestyle
 package opscenter
 package services
 
-import akka.stream.scaladsl.{Flow, Sink, Source}
+import akka.NotUsed
+import akka.stream.scaladsl.{Flow, Sink}
 import akka.stream.ActorMaterializer
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.http.scaladsl.model.ws.BinaryMessage
 import freestyle.opscenter.model.Metric
+
 import scala.io.{Source => SourceIO}
 
 object MetricsService {
 
-  def greeterWebSocketService(implicit mat: ActorMaterializer) =
+  def greeterWebSocketService(implicit mat: ActorMaterializer): Flow[Message, BinaryMessage, NotUsed] =
     Flow[Message]
       .mapConcat {
         case tm: TextMessage => readMetrics
@@ -37,16 +39,14 @@ object MetricsService {
         }
       }
 
-  def readMetrics(implicit materializer: ActorMaterializer): List[TextMessage] = {
+  def readMetrics(implicit materializer: ActorMaterializer): List[BinaryMessage] = {
     val fileStream = getClass.getResourceAsStream("/metrics.txt")
     SourceIO.fromInputStream(fileStream).getLines.toList.map(lineToTextMessage)
   }
 
-  private def lineToTextMessage(line: String): TextMessage = {
+  private def lineToTextMessage(line: String): BinaryMessage = {
     val columns = line.split(" ")
-    TextMessage(
-      Source.single(Metric[Float](columns(1), columns(2).toFloat, columns(0).toLong).toString)
-    )
+    new Metric[Float](columns(0), columns(2), columns(3).toFloat, columns(1).toLong).toBinaryMessage
   }
 
 }

@@ -18,8 +18,10 @@ package freestyle
 package opscenter
 package model
 
-import java.time.Instant
+import akka.http.scaladsl.model.ws.BinaryMessage
+import akka.util.ByteString
 
-case class Metric[T](metric: String, value: T, date: Long = Instant.now.getEpochSecond) {
-  override def toString: String = s"$date $metric $value"
+case class Metric[T](metric: String, microservice: String, value: T, date: Long) {
+  override def toString(): String      = s"$microservice $date $metric $value"
+  def toBinaryMessage(): BinaryMessage = BinaryMessage(ByteString(this.toString()))
 }
