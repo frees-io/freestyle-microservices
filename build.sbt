@@ -20,3 +20,15 @@ lazy val `freestyle-microservices` = crossProject
 
 lazy val `freestyle-microservicesJVM` = `freestyle-microservices`.jvm
 lazy val `freestyle-microservicesJS` = `freestyle-microservices`.js
+
+lazy val `freestyle-opscenter` = crossProject
+  .in(file("freestyle-opscenter"))
+  .settings(moduleName := "freestyle-opscenter")
+  .settings(scalaMetaSettings: _*)
+  .crossDepSettings(commonDeps ++ freestyleCoreDeps() ++
+    Seq(
+      "com.typesafe.akka" %% "akka-stream" % "2.5.4",
+      "com.typesafe.akka" %% "akka-http" % "10.0.10"
+    ): _*)
+
+lazy val `freestyle-opscenterJVM` = `freestyle-opscenter`.jvm

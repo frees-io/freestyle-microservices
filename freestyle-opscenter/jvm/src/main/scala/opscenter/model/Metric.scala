@@ -15,23 +15,13 @@
  */
 
 package freestyle
+package opscenter
+package model
 
-import cats.Monad
-import freestyle._
+import akka.http.scaladsl.model.ws.BinaryMessage
+import akka.util.ByteString
 
-object algebra {
-
-  @free sealed trait AlgebraM {
-    def hello: FS[String]
-  }
-
-  trait Implicits {
-    implicit def algebraMHandler[M[_]](implicit M: Monad[M]): AlgebraM.Handler[M] =
-      new AlgebraM.Handler[M] {
-        def hello: M[String] = M.pure("Hello World!")
-      }
-
-  }
-
-  object implicits extends Implicits
+case class Metric[T](metric: String, microservice: String, value: T, date: Long) {
+  override def toString(): String      = s"$microservice $date $metric $value"
+  def toBinaryMessage(): BinaryMessage = BinaryMessage(ByteString(this.toString()))
 }
